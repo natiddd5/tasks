@@ -1,0 +1,29 @@
+mat-accordion {
+  margin-top: 2rem;
+}
+
+mat-expansion-panel {
+  background-color: #ffffff;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+}
+
+mat-expansion-panel-header {
+  font-weight: bold;
+}
+
+.info-text {
+  text-align: center;
+  color: #777;
+  margin-top: 2rem;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.actions button {
+  margin-left: 0.5rem;
+}
