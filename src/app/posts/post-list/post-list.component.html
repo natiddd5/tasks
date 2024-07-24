@@ -5,8 +5,8 @@
     </mat-expansion-panel-header>
     <p>{{ post.content }}</p>
     <mat-card-actions class="actions">
-      <button mat-button>EDIT</button>
-      <button mat-button>DELETE</button>
+      <button mat-button (click)="onEdit(post)">EDIT</button>
+      <button mat-button (click)="onDelete(post.id)">DELETE</button>
     </mat-card-actions>
   </mat-expansion-panel>
 </mat-accordion>
