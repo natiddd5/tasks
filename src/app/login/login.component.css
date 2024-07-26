@@ -1,0 +1,9 @@
+mat-card {
+  max-width: 400px;
+  margin: auto;
+}
+
+mat-spinner {
+  display: block;
+  margin: auto;
+}

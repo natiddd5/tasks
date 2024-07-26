@@ -1,5 +1,7 @@
-<app-header></app-header>
+<app-header (showComponentEvent)="showComponent($event)"></app-header>
 <main class="main">
-  <app-post-create></app-post-create>
-  <app-post-list></app-post-list>
+  <app-login *ngIf="showLogin"></app-login>
+  <app-register *ngIf="showRegister"></app-register>
+  <app-post-create *ngIf="showPostCreate"></app-post-create>
+  <app-post-list *ngIf="showPostList"></app-post-list>
 </main>

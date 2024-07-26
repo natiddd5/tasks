@@ -5,6 +5,9 @@ import { PostsService } from '../posts.service';
 import { MatAccordion, MatExpansionPanel, MatExpansionPanelHeader } from '@angular/material/expansion';
 import { MatCardActions } from '@angular/material/card';
 import { MatButton } from '@angular/material/button';
+import { MatFormField } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
+import { FormsModule } from '@angular/forms';
 import { NgIf, NgFor, CommonModule } from '@angular/common';
 
 @Component({
@@ -18,6 +21,9 @@ import { NgIf, NgFor, CommonModule } from '@angular/common';
     MatExpansionPanelHeader,
     MatCardActions,
     MatButton,
+    MatFormField,
+    MatInput,
+    FormsModule,
     NgIf,
     NgFor
   ],
@@ -42,12 +48,16 @@ export class PostListComponent implements OnInit, OnDestroy {
   }
 
   onEdit(post: Post): void {
-    const newTitle = prompt('Edit Title:', post.title);
-    const newContent = prompt('Edit Content:', post.content);
+    post.isEditing = true;
+  }
 
-    if (newTitle !== null && newContent !== null) {
-      this.postsService.updatePost(post.id, newTitle, newContent);
-    }
+  onSave(post: Post): void {
+    this.postsService.updatePost(post.id, post.title, post.content);
+    post.isEditing = false;
+  }
+
+  onCancel(post: Post): void {
+    post.isEditing = false;
   }
 
   ngOnDestroy(): void {

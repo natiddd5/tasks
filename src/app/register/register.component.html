@@ -1,0 +1,28 @@
+<mat-card>
+  <form (ngSubmit)="onRegister(form)" #form="ngForm">
+    <mat-form-field>
+      <input
+        matInput
+        type="email"
+        placeholder="Email"
+        name="email"
+        ngModel
+        required
+        email
+      />
+    </mat-form-field>
+    <mat-form-field>
+      <input
+        matInput
+        type="password"
+        placeholder="Password"
+        name="password"
+        ngModel
+        required
+        minlength="6"
+      />
+    </mat-form-field>
+    <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">Register</button>
+  </form>
+</mat-card>
+<mat-spinner *ngIf="isLoading"></mat-spinner>

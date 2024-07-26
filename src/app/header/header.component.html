@@ -1,5 +1,9 @@
-<mat-toolbar color = "accent">
-  <span>
-EasyTask
-  </span>
+<mat-toolbar color="accent">
+  <span class="title">EasyTask</span>
+  <span class="spacer"></span>
+  <button mat-button (click)="showComponent('posts')" *ngIf="userIsAuthenticated">Posts</button>
+  <button mat-button (click)="showComponent('create')" *ngIf="userIsAuthenticated">New Post</button>
+  <button mat-button (click)="showComponent('login')" *ngIf="!userIsAuthenticated">Login</button>
+  <button mat-button (click)="showComponent('register')" *ngIf="!userIsAuthenticated">Register</button>
+  <button mat-button (click)="onLogout()" *ngIf="userIsAuthenticated">Logout</button>
 </mat-toolbar>

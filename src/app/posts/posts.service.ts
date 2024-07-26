@@ -2,16 +2,22 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Subject } from 'rxjs';
 import { Post } from './post.mode';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable({ providedIn: 'root' })
 export class PostsService {
   private posts: Post[] = [];
   private postsUpdated = new Subject<Post[]>();
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private authService: AuthService) {}
 
   getPosts() {
-    this.http.get<Post[]>('http://localhost:4000/api/posts')
+    const userId = this.authService.getUserId();
+    if (!userId) {
+      console.error('User ID is missing');
+      return;
+    }
+    this.http.get<Post[]>(`http://localhost:4000/api/posts/${userId}`)
       .subscribe((posts) => {
         this.posts = posts;
         this.postsUpdated.next([...this.posts]);
@@ -23,13 +29,15 @@ export class PostsService {
   }
 
   addPost(title: string, content: string) {
-    const post: Post = { id: '', title, content };
-    console.log('Sending POST request with:', post);
-
+    const userId = this.authService.getUserId();
+    if (!userId) {
+      console.error('User ID is missing');
+      return;
+    }
+    const post: Post = { id: '', title, content, userId };
     this.http.post<Post>('http://localhost:4000/api/posts', post)
       .subscribe(
         (newPost) => {
-          console.log('POST request successful:', newPost);
           this.posts.push(newPost);
           this.postsUpdated.next([...this.posts]);
         },
@@ -40,7 +48,7 @@ export class PostsService {
   }
 
   deletePost(postId: string) {
-    return this.http.delete(`http://localhost:4000/api/posts/${postId}`)
+    this.http.delete(`http://localhost:4000/api/posts/${postId}`)
       .subscribe(() => {
         this.posts = this.posts.filter(post => post.id !== postId);
         this.postsUpdated.next([...this.posts]);
@@ -50,8 +58,8 @@ export class PostsService {
   }
 
   updatePost(id: string, title: string, content: string) {
-    const post: Post = { id, title, content };
-    return this.http.put<Post>(`http://localhost:4000/api/posts/${id}`, post)
+    const post: Post = { id, title, content, userId: '' }; // UserId is not required for update
+    this.http.put<Post>(`http://localhost:4000/api/posts/${id}`, post)
       .subscribe((updatedPost) => {
         const updatedPosts = [...this.posts];
         const oldPostIndex = updatedPosts.findIndex(p => p.id === post.id);
@@ -62,7 +70,4 @@ export class PostsService {
         console.error('PUT request failed:', error);
       });
   }
-
-
-
 }
